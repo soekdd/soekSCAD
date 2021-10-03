@@ -1,0 +1,15 @@
+{
+  "name": "soekscad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "mkdir lib && cd lib && git clone https://github.com/JustinSDK/dotSCAD.git",
+    "sinWavePNG": "openscad src/coaster/SinWave.scad -o output/png/sinWave.png",
+    "sinWaveSTL": "openscad src/coaster/SinWave.scad -o output/stl/sinWave.stl",
+    "bezierPNG": "openscad src/coaster/Bezier.scad -o output/png/bezier.png",
+    "bezierSTL": "openscad src/coaster/Bezier.scad -o output/stl/bezier.stl"
+  },
+  "author": "Soeren Kahl",
+  "license": "ISC"
+}
