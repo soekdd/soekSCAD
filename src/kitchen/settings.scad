@@ -1,0 +1,29 @@
+border = 120;
+padding = 4;
+fase = 4;
+thickness = 12;
+glassNotchX = 4;
+glassNotchY = 4;
+
+
+sockelH = 80;
+tableH = 950;
+fullH = 2420;
+headBH = 800;
+headSH = 400;
+drawH = 180;
+heater = 150;
+drawW1 = 625+heater;
+drawW2 = 625;
+left = 39;
+doorM = 1;
+doorG = 2;
+doorS = 3;
+doorC = 4;
+glass = 5;
+cRed= [1,0,0];
+cBlue = [0,0,1];
+cGreen = [0,1,0];
+cWood = [.83,.80,.75];
+cWall = [1,1,1];
+cBench = [0.1,0.1,0.1];

@@ -1,5 +1,6 @@
 include <front.scad>
+include <tree.scad>
 union(){
-    import(str("../../output/kitchen/leaves.stl"), convexity=3);
+    trees(3);
     front();
 }

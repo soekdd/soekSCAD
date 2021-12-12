@@ -6,7 +6,7 @@ module part(index){
         union(){
             front();
             translate([0,0,-0.05])
-                trees(0);
+                trees(1);
         }
     }
 }
@@ -20,7 +20,7 @@ module partPreGenerated(index){
     intersection() {
         cutBody(index);
         union(){
-            import(str("../../output/kitchen/completeFront.stl"), convexity=3);
+            import(str("../../output/kitchen/parts/tree_fixed.stl"), convexity=3);
         }
     }
 }

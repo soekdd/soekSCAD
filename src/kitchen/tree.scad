@@ -4,100 +4,107 @@ include <../../lib/dotSCAD/src/bezier_curve.scad>;
 include <../../lib/dotSCAD/src/curve.scad>;
 include <../leaves/maple.scad>
 include <../leaves/simple.scad>
-debug = 0;
+treeDebug = 0;
 resolution = 30; 
 stepSmooth = 1/(resolution*2);
 truncHeight = 4;
 function truncShape(truncWidth)=
-    [[truncWidth/2,0],
-     [-truncWidth/2,0],
-     [-truncWidth*0.3,truncHeight*0.8],
-     [0,truncHeight],
-     [truncWidth*0.3,truncHeight*0.8]];
+    [   
+      [truncWidth/2,0],
+      [-truncWidth/2,0],
+      [-truncWidth*0.3,truncHeight*0.8],
+      [0,truncHeight],
+      [truncWidth*0.3,truncHeight*0.8]
+    ];
 
-module branch(pBranch,height,index,leaves=1){
-    if (height>0) 
-        union() {
-            pShape = truncShape(height);
-            if (leaves != 2)
+module branch(pBranch,width,index,leaves=1){ 
+    union() {
+        pShape = truncShape(width+4);
+        if (leaves != 2)
+            translate([0,0,-0.1])
                 path_extrude(pShape, pBranch, method = "EULER_ANGLE");
-            angle = 90*(index%2)-180+45+atan2(pBranch[2][1]-pBranch[1][1],
-                                       pBranch[2][0]-pBranch[1][0]);
-            if (height<15 && index%3 ==0) {
-                if (debug == 1) color([0,1,0]) translate([pBranch[2][0],pBranch[2][1]]) cylinder(5,5,5);
-                if (leaves != 0 && leaves != 3) {
-                    mapleLeaf(pBranch[2][0],
-                              pBranch[2][1],
-                              angle,
-                              pBranch[2][0]*5000+pBranch[2][1],0);
-                } else if (leaves == 3) {
-                    simpleLeaf(pBranch[2][0],
-                              pBranch[2][1],
-                              angle,
-                              pBranch[2][0]*5000+pBranch[2][1],0);
-                }
+        branchAngle = atan2(pBranch[2][1]-pBranch[1][1],
+                                   pBranch[2][0]-pBranch[1][0]);
+        angle = index == 0 ? branchAngle - 90
+            : (-90 + 65 * ( index % 2 ==0 ? 1 : -1 ) + branchAngle);
+        bow = index == 0 ? 0
+            : ( ( index % 2 > 0 ? 1 : -1 ) * floor( index / 2 ) );
+        
+        if (width<15 && index % 3 ==0) {
+            if (treeDebug  == 1) color([0,1,0]) translate([pBranch[2][0],pBranch[2][1]]) cylinder(5,5,5);
+            if (leaves != 0 && leaves != 3) {
+                mapleLeaf(pBranch[2][0],
+                          pBranch[2][1],
+                          angle,
+                          pBranch[2][0]*5000+pBranch[2][1],bow);
+            } else if (leaves == 3) {
+                simpleLeaf(pBranch[2][0],
+                          pBranch[2][1],
+                          angle,
+                          pBranch[2][0]*5000+pBranch[2][1],bow);
             }
         }
+    }
 }
-module tree(aBezier,width,leaves=1){
+
+function getBranchType(w,b) = 
+    ((w>=b[0])?0:((w>=b[1])?1:((w>=b[2])?2:3)));
+function inc(a,b)=a+1;
+
+module tree(aBezier,num,leaves=1){
     /*for(dot = aBezier)
         translate([dot[0],dot[1],10])
             color([1,0,0])
                 cylinder(10,10,10);*/
-    moreBranches1 = 105;
-    mod1 = 11;
-    angle1 = 25;
-    moreBranches2 = 40;
-    mod2 = 9;
-    angle2 = 30;
-    noBranches = 5;
-    mod3 = 3;
-    angle3 = 35;
-    path = bezier_curve(2.2/(10+width),aBezier);
-    //for(v = path) translate([v[0],v[1],20]) color([0,1,0]) cylinder(10,10,10);
+    nextBranch = [90,40,2,0];
+    mod = [25,15,6,99999];
+    direct = [0,1,1,0];
+    colors = [[0,0,1],[1,0,0],[1,1,0],[0,0,0]];
+    angle = [25,30,35,99];
+    counterDiff = 0;
+    path = bezier_curve(1/(num-1),aBezier);
+    branchDiff = [0,len(path)-nextBranch[0],
+        len(path)-(nextBranch[1]),
+        len(path)-(nextBranch[2])];
     union()
     for(index = [2:len(path)-1]) {
-        shorten = floor((len(path)-index)/2);
         pBranch = [path[index-2],path[index-1],path[index]];
-        newWidth = width-2.1*index;
-        branch(pBranch,newWidth,index,leaves);
-        if (newWidth>0 && index>2 && len(path)-shorten>index+5) {
-             pSubBranch = [for(subIndex=[index-2:len(path)-shorten-1]) path[subIndex]];
-        /*for(v = pSubBranch)
-               translate([v[0],v[1],20]) color([0,1,0]) cylinder(10,10,10);*/
+        steps2End = len(path)-index-1;
+        newWidth = steps2End;
+        branch(pBranch,newWidth,steps2End,leaves);
+        shorten = floor(steps2End*0.45);
+        branchType = getBranchType(steps2End,nextBranch);
+        branchCounter =  index - branchDiff[ branchType ];
+        if (treeDebug == 1) 
+            translate(pBranch[0])
+                        color([1,1,1]) 
+                            cylinder(h=10,r=5);
+        if (newWidth>1 && (len(path)<10 || index>5)) {
+            pSubBranch = [for(subIndex=[index-2:len(path)-shorten-1]) path[subIndex]];
             translate(pBranch[0]) {
-                if (index%mod1 == 0 && newWidth>=moreBranches1 ) {
-                    if (debug == 1) color([0,0,1]) cylinder(20,20,20);
-                    rotate([0,0,angle1*(index%(2*mod1)==0?-1:1)])
+                if (branchCounter%mod[branchType]==0) {
+                    if (treeDebug == 1) color(colors[branchType]) 
+                        cylinder(h=10,r=20-3*branchType);
+                    rotate([0,0,angle[branchType]*(branchCounter%(2*mod[branchType])==mod[branchType]*direct[branchType]?-1:1)])
                         translate(-pBranch[0])
-                               tree(pSubBranch,newWidth-10,leaves);
-                } else if (index%mod2 == 0 && newWidth<moreBranches1 && newWidth>=moreBranches2) {
-                    if (debug == 1) color([1,0,0]) cylinder(15,15,15);
-                    rotate([0,0,angle2*(index%(2*mod2)==0?-1:1)])
-                        translate(-pBranch[0])
-                               tree(pSubBranch,newWidth-5,leaves);
-                } else if (index%mod3 == 0 && newWidth<moreBranches2 && newWidth>noBranches) {
-                    if (debug == 1) color([1,1,0]) cylinder(10,10,10);   
-                    rotate([0,0,angle3*(index%(2*mod3)==0?-1:1)])
-                        translate(-pBranch[0])
-                               tree(pSubBranch,newWidth,leaves);
-                }
-            }    
+                               tree(pSubBranch,len(pSubBranch),leaves);
+                } 
+             }    
         }
     }
 }
 
 module trees(leaves = 1){
     union(){
-        tree([[50,0],[50,2000],[100,1400],[1800,2300],[2000,2400],
-            [2500,2360],[3000,2300],[4600,2200]],150,leaves);       
-        tree([[50,0],[50,500],[100,400],[1800,300],[2000,500],
-            [2500,50],[3000,600],[3600,700]],130,leaves);
+        tree([[75,0],[75,2000],[200,1400],[1800,2300],[2000,2400],
+            [2500,2360],[3550,2300],[4150,2000]],160,leaves);       
+        tree([[85,0],[85,500],[100,400],[1800,300],[2000,50],
+            [2500,50],[3000,600],[3600,700]],140,leaves);
     }
 }
 
 module test(){
-    front(14);
+    front();
     trees(1);
 }
 //test();

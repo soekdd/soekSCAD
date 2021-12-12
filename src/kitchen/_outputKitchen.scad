@@ -1,3 +1,3 @@
 include <kitchen.scad>
 
-trees(1);
+kitchen3DPreGenerated("test");

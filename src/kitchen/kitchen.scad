@@ -1,9 +1,10 @@
 include <front.scad>
 include <part.scad>
-dir = "fronts";
+
 module kitchen3D(index=-1){
     fronts = getFronts();
     union(){
+        translate([0,0,20])
         if (index == -1)
             union()
             for(i = [0:len(fronts)-1]) {
@@ -25,9 +26,10 @@ module kitchen3D(index=-1){
         boards();
     }
 }
-module kitchen3DPreGenerated(){
+module kitchen3DPreGenerated(dir = "parts"){
     fronts = getFronts();
     union() {
+        translate([0,0,20])
         for(i = [0:len(fronts)-1]) {
             f = fronts[i];
             translate([f[1]+f[6][0],f[2],f[6][1]])
