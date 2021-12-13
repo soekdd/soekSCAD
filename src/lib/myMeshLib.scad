@@ -50,11 +50,24 @@ module wickerOfMesh(mesh,pWicker,fWaveHeight,resolution) {
     nY = len(mesh[0]) - 1;
     nX = len(mesh) - 1;
     stepSmooth = 1/(resolution);
-    meshH = [for(x = [0:nX]) [mesh[x][0]+(mesh[0][0]-mesh[0][1]),mesh[x][0],
-        for(y = [1:nY-1]) [mesh[x][y][0],mesh[x][y][1],(((x+y)%2)*2-1)*fWaveHeight], mesh[x][nY], mesh[x][nY]+(mesh[0][nY]-mesh[0][nY-1])]];        
-    meshV = [for(y = [0:nY]) [mesh[0][y],mesh[0][y],
-        for(x = [1:nX-1]) [mesh[x][y][0],mesh[x][y][1],(((x+y+1)%2)*2-1)*fWaveHeight],
-        mesh[nX][y], mesh[nX][y]]];
+    meshH = [for(x = [0:nX]) 
+        [mesh[x][0]+(mesh[0][0]-mesh[0][1]),
+         mesh[x][0],
+         for(y = [1:nY-1]) 
+            [mesh[x][y][0],
+             mesh[x][y][1],
+             (((x+y)%2)*2-1)*fWaveHeight+mesh[x][y][2]], 
+         mesh[x][nY], 
+         mesh[x][nY]+(mesh[0][nY]-mesh[0][nY-1])]];        
+    meshV = [for(y = [0:nY]) 
+        [mesh[0][y],
+         mesh[0][y],
+         for(x = [1:nX-1]) 
+             [mesh[x][y][0],
+              mesh[x][y][1],
+              (((x+y+1)%2)*2-1)*fWaveHeight+mesh[x][y][2]],
+         mesh[nX][y], 
+         mesh[nX][y]]];
     pWickerH = [for(x = [0:nX]) curve(stepSmooth,meshH[x])];
     pWickerV = [for(y = [0:nY]) curve(stepSmooth,meshV[y])];
     for(x = [1:nX-1]) {
@@ -64,6 +77,54 @@ module wickerOfMesh(mesh,pWicker,fWaveHeight,resolution) {
         path_extrude(pWicker, pWickerV[y], method = "EULER_ANGLE");
     }
 }
+
+function vLength(vAbs) = sqrt(vAbs[0]*vAbs[0]+vAbs[1]*vAbs[1]+vAbs[2]*vAbs[2]);
+
+function wave(x,y,vAbs,fWaveHeight)=[
+(1+(((x+y+1)%2)*2-1)*fWaveHeight)*vAbs[0]/vLength(vAbs)+vAbs[0],
+    vAbs[1],
+(1+(((x+y+1)%2)*2-1)*fWaveHeight)*vAbs[2]/vLength(vAbs)+vAbs[2]
+];
+
+module wickerCylinder(nX,nY,cylinderRadius,cylinderHeight,pWicker,fWaveHeight,resolution) {
+    mesh = [
+    for(x = [0:nX-1]) 
+        [for(y = [-1:nY-1]) 
+            [cos(360*x/nX)*cylinderRadius,
+             (y+1)*cylinderHeight/(nY-1),
+             sin(360*x/nX)*cylinderRadius ]]
+    ];
+    stepSmooth = 1/(resolution);
+    meshH = [for(x = [0:nX-1]) 
+        [mesh[x][0]+(mesh[0][0]-mesh[0][1]),
+         mesh[x][0],
+        for(y = [1:nY-2]) 
+            [mesh[x][y][0],
+             mesh[x][y][1],
+             (((x+y)%2)*2-1)*fWaveHeight+mesh[x][y][2]],
+        mesh[x][nY-1], 
+        mesh[x][nY-1]+(mesh[0][nY-1]-mesh[0][nY-2])]
+         ];        
+    meshV = [for(y = [0:nY-1])         
+        [wave(0,y,mesh[0][y],fWaveHeight),
+        for(x = [0:nX-1]) 
+           wave(x,y,mesh[x][y],fWaveHeight),
+        wave(0,y,mesh[0][y],fWaveHeight),
+        wave(0,y,mesh[0][y],fWaveHeight)
+        ]];
+    pWickerH = [for(x = [0:nX-1]) curve(stepSmooth,meshH[x])];
+    pWickerV = [for(y = [0:nY-1]) curve(stepSmooth,meshV[y])];
+    for(x = [0:nX-1]) {
+        translate(meshH[x][0])
+            rotate([0,90-360*x/nX,0])
+                translate(-meshH[x][0])
+            path_extrude(pWicker, pWickerH[x], method = "EULER_ANGLE");
+    }
+    for(y = [1:nY-2]) {
+        path_extrude(pWicker, pWickerV[y], method = "EULER_ANGLE");
+    }
+}
+
 
 function myShapes(width,height,resolution) = 
     [circlePath(width,height,resolution*2),
