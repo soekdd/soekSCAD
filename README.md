@@ -27,6 +27,10 @@ wicker
 Maple leaves kitchen fronts
 
 ![Kitchen1](https://github.com/soekdd/soekSCAD/blob/main/output/png/kitchen1.png?raw=true)
+
+![Kitchen2](https://github.com/soekdd/soekSCAD/blob/main/output/png/kitchen2.png?raw=true)
+
+![Kitchen3](https://github.com/soekdd/soekSCAD/blob/main/output/png/kitchen3.png?raw=true)
 ## Render to PNG
 
 `npm run bezierPNG`
