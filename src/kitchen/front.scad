@@ -72,8 +72,8 @@ module boards(material = -1){
         if (material == -1 || material == 1) {  
             //Seitenwände
             board(cWood,0            ,0,-700 ,thickness,fullH,700-thickness);
-            board(cWood,left+8*400-thickness,0,-700,thickness,tableH+sockelH,1200);
-            board(cWood,left+8*400-thickness,fullH-headSH,-700,thickness,headSH,800);
+//            board(cWood,left+8*400-thickness,0,-700,thickness,tableH+sockelH,1200);
+//            board(cWood,left+8*400-thickness,fullH-headSH,-700,thickness,headSH,800);
             // Deckel
             board(cWood,0,fullH-thickness,-700,8*400+left,thickness,400-thickness);
             board(cWood,0,fullH-thickness,-300-thickness,400+left-thickness,thickness,300);

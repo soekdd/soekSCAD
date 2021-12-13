@@ -1,5 +1,5 @@
 # soekSCAD
-collection of my openSCAD libraries and objects
+Collection of my openSCAD libraries and objects
 
 ## Install
 
@@ -17,14 +17,30 @@ sinus wave
 
 ![Sin Wave Coaster](https://github.com/soekdd/soekSCAD/blob/main/output/png/sinWave.png?raw=true)
 
+### Lamp
+
+wicker
+
+![Wicker Lamp](https://github.com/soekdd/soekSCAD/blob/main/output/png/cylinder.png?raw=true)
+### Kitchen
+
+Maple leaves kitchen fronts
+
+![Kitchen1](https://github.com/soekdd/soekSCAD/blob/main/output/png/kitchen1.png?raw=true)
 ## Render to PNG
 
 `npm run bezierPNG`
 
 `npm run sinWavePNG`
 
+`npm run cylinderPNG`
+
+`npm run kitchenPNG`
+
 ## Render to STP
 
-`npm run bezierSTP`
+`npm run bezierSTL`
 
-`npm run sinWaveSTP`
+`npm run sinWaveSTL`
+
+`npm run cylinderSTL`
