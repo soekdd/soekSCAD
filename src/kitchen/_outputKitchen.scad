@@ -1,3 +1,3 @@
 include <kitchen.scad>
 
-kitchen3DPreGenerated("test");
+kitchen3DPreGenerated("parts");

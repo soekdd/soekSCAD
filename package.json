@@ -8,10 +8,7 @@
     "sinWavePNG": "openscad src/coaster/SinWave.scad -o output/png/sinWave.png",
     "sinWaveSTL": "openscad src/coaster/SinWave.scad -o output/stl/sinWave.stl",
     "bezierPNG": "openscad src/coaster/Bezier.scad -o output/png/bezier.png",
-    "bezierSTL": "openscad src/coaster/Bezier.scad -o output/stl/bezier.stl",
-    "cylinderPNG": "openscad src/lamp/Wicker.scad -o output/png/cylinder.png",
-    "cylinderSTL": "openscad src/lamp/Wicker.scad -o output/stl/cylinder.stl",
-    "kitchenPNG": "openscad src/kitchen/_outputKitchen.scad -o output/png/kitchen1.png --imgsize=1920,1200 --camera=1800,1300,0,0,20,0,8000 && openscad src/kitchen/_outputKitchen.scad -o output/png/kitchen2.png --imgsize=1920,1200 --camera=1600,1300,0,0,-20,0,8000 && openscad src/kitchen/_outputKitchen.scad -o output/png/kitchen3.png --imgsize=1920,1200 --camera=2600,1900,0,0,-20,0,3100"
+    "bezierSTL": "openscad src/coaster/Bezier.scad -o output/stl/bezier.stl"
   },
   "author": "Soeren Kahl",
   "license": "ISC"

@@ -27,3 +27,13 @@ cGreen = [0,1,0];
 cWood = [.83,.80,.75];
 cWall = [1,1,1];
 cBench = [0.1,0.1,0.1];
+
+hbMargin = 100-padding;
+hbShort = 128;
+hbLong = 320;
+hbExtra = 30;
+hbCenterTop = 1;
+hbCenterCenter = 2;
+hbCenterBottom = 5;
+hbLeft = 3;
+hbRight = 4;

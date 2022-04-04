@@ -1,5 +1,5 @@
 include <front.scad>
-material = 1;
+material = 0;
 if (material == 0)
     front();
 else {

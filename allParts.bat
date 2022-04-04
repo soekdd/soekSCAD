@@ -1,8 +1,8 @@
 echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 set outDir=parts
-set cpuNum=5
-set partNum=35
+set cpuNum=4
+set partNum=33
 
 set /a eachParts=%partNum%/%cpuNum%
 
