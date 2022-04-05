@@ -151,54 +151,79 @@ module front(index=-1){
         door(fronts[index]);
 }
 
+module dorn(radius){
+    cylinder(h=10, r1=radius, r2=radius+5, center=true);
+    translate([0,0,-5])
+        cylinder(h=3, r=3, center=true);
+}
+
 module handleBar(f, type = 1) {
     width = f[7];
     pos = f[8];
     height = (type==1) ? 160 : 40;
     deep = (type==1) ? height/2 + 50.01 :height/2 ;
     radius = (type==1) ? 10 : 6;
-    if (pos == hbCenterCenter) {
-        translate([f[3]/2-width/2,f[4]/2,deep])
-            cylinder(h=height, r=radius, center=true);
-        translate([f[3]/2+width/2,f[4]/2,deep])
-            cylinder(h=height, r=radius, center=true);
-        if (type==2)
+    if (pos == hbCenterCenter)
+        if (type==2) {
+            translate([f[3]/2-width/2,f[4]/2,deep])
+                cylinder(h=height, r=radius, center=true);
+            translate([f[3]/2+width/2,f[4]/2,deep])
+                cylinder(h=height, r=radius, center=true);
             translate([f[3]/2+width/2,f[4]/2,height]) rotate([0,90,0]) translate([0,0,-width/2])
                 cylinder(h=width+2*hbExtra, r=radius, center=true);
-    } else if (pos == hbCenterBottom) {
-        translate([f[3]/2-width/2,hbMargin,deep])
-            cylinder(h=height, r=radius, center=true);
-        translate([f[3]/2+width/2,hbMargin,deep])
-            cylinder(h=height, r=radius, center=true);
-        if (type==2)
+        } else {
+            translate([f[3]/2-width/2,f[4]/2,50]) dorn(radius);
+            translate([f[3]/2+width/2,f[4]/2,50]) dorn(radius);
+        } 
+    else if (pos == hbCenterBottom) 
+        if (type==2) {
+            translate([f[3]/2-width/2,hbMargin,deep])
+                cylinder(h=height, r=radius, center=true);
+            translate([f[3]/2+width/2,hbMargin,deep])
+                cylinder(h=height, r=radius, center=true);
             translate([f[3]/2+width/2,hbMargin,height]) rotate([0,90,0]) translate([0,0,-width/2])
                 cylinder(h=width+2*hbExtra, r=radius, center=true);
-    } else if (pos == hbCenterTop) {
-        translate([f[3]/2-width/2,f[4]-hbMargin,deep])
-            cylinder(h=height, r=radius, center=true);
-        translate([f[3]/2+width/2,f[4]-hbMargin,deep])
-            cylinder(h=height, r=radius, center=true);
-        if (type==2)
-            translate([f[3]/2+width/2,f[4]-hbMargin,height]) rotate([0,90,0]) translate([0,0,-width/2])
+        } else {
+            translate([f[3]/2-width/2,hbMargin,50]) dorn(radius);
+            translate([f[3]/2+width/2,hbMargin,50]) dorn(radius);
+        }
+    else if (pos == hbCenterTop) 
+        if (type==2){
+            translate([f[3]/2-width/2,f[4]-hbMargin,deep])
+                cylinder(h=height, r=radius, center=true);
+            translate([f[3]/2+width/2,f[4]-hbMargin,deep])
+                cylinder(h=height, r=radius, center=true);
+            translate([f[3]/2+width/2,f[4]-hbMargin,height]) 
+                rotate([0,90,0]) translate([0,0,-width/2])
                 cylinder(h=width+2*hbExtra, r=radius, center=true);        
-    } else if (pos == hbRight) {
-        translate([f[3]-hbMargin,hbMargin+width,deep])
-            cylinder(h=height, r=radius, center=true);
-        translate([f[3]-hbMargin,hbMargin,deep])
-            cylinder(h=height, r=radius, center=true);
-         if (type==2)
+        } else {
+            translate([f[3]/2-width/2,f[4]-hbMargin,50]) dorn(radius);
+            translate([f[3]/2+width/2,f[4]-hbMargin,50]) dorn(radius);
+        }
+    else if (pos == hbRight) 
+        if (type==2) {
+            translate([f[3]-hbMargin,hbMargin+width,deep])
+                cylinder(h=height, r=radius, center=true);
+            translate([f[3]-hbMargin,hbMargin,deep])
+                cylinder(h=height, r=radius, center=true);
             translate([f[3]-hbMargin,hbMargin,height]) rotate([90,0,0]) translate([0,0,-width/2])
                 cylinder(h=width+2*hbExtra, r=radius, center=true);
-
-    } else if (pos == hbLeft) {
-        translate([hbMargin,hbMargin+width,deep])
-            cylinder(h=height, r=radius, center=true);
-        translate([hbMargin,hbMargin,deep])
-            cylinder(h=height, r=radius, center=true);
-        if (type==2)
+        } else {
+            translate([f[3]-hbMargin,hbMargin+width,50]) dorn(radius);
+            translate([f[3]-hbMargin,hbMargin,50]) dorn(radius);
+        }
+    else if (pos == hbLeft) 
+        if (type==2) {
+            translate([hbMargin,hbMargin+width,deep])
+                cylinder(h=height, r=radius, center=true);
+            translate([hbMargin,hbMargin,deep])
+                cylinder(h=height, r=radius, center=true);
             translate([hbMargin,hbMargin,height]) rotate([90,0,0]) translate([0,0,-width/2])
                 cylinder(h=width+2*hbExtra, r=radius, center=true);
-    }
+        } else {
+            translate([hbMargin,hbMargin+width,50]) dorn(radius);
+            translate([hbMargin,hbMargin,50]) dorn(radius);
+        }
 }
 
 module cutBody(index=-1){
@@ -212,10 +237,10 @@ module cutBody(index=-1){
                 else 
                   translate([f[1]+padding,f[2]+padding,-50]) 
                 //union() {
-                difference() {
+                //difference() {
                     cube([f[3]-2*padding,f[4]-2*padding,100]);
-                    handleBar(f,1);
-                  }
+                //    handleBar(f,1);
+                //  }
    } else {
         f = fronts[index];
         if (f[0]==doorS)
@@ -223,13 +248,31 @@ module cutBody(index=-1){
                 cube([f[3],f[4],100]);
         else 
             translate([f[1]+padding,f[2]+padding,-50]) 
-                difference() {
+                //difference() {
                     cube([f[3]-2*padding,f[4]-2*padding,100]);
-                    handleBar(f,1);            
-                }
+                //    handleBar(f,1);            
+                //}
    }
 }
 
+module handleBars(index=-1,mode=1){
+    fronts = getFronts();
+    if (index == -1) {
+        union()
+            for(f = fronts)    
+                if (f[0]!=doorS && f[0]!=glass)
+                  translate([f[1]+padding,f[2]+padding,-50]) 
+                    handleBar(f,mode);
+                  
+   } else {
+        f = fronts[index];
+        if (f[0]!=doorS && f[0]!=glass) 
+            translate([f[1]+padding,f[2]+padding,-50]) 
+                handleBar(f,mode);            
+                
+   }
+}
+//handleBars();
 //front3D();
 //front();
 //cutBody();

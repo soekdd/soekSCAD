@@ -9,11 +9,12 @@ module plus(){
     }
 }
 module part(index){
-    f = getFronts()[index];
-    intersection() {
-        cutBody(index);                  
-        plus();
-        //front(index);
+    difference(){
+        intersection() {
+            cutBody(index);                  
+            plus();
+        }
+        handleBars(index,2);
     }
    /* translate([f[1]+padding,f[2]+padding,0]) 
         handleBar(f,2);            
