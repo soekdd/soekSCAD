@@ -1,9 +1,9 @@
 include <settings.scad>
 include <front.scad>
 include <tree.scad>
-module plus(){
+module plus(index){
     union(){
-        front();
+        front(index);
         translate([0,0,0.01])
             trees(1);
     }
@@ -12,13 +12,10 @@ module part(index){
     difference(){
         intersection() {
             cutBody(index);                  
-            plus();
+            plus(index);
         }
-        handleBars(index,2);
+        handleBars(index,1);
     }
-   /* translate([f[1]+padding,f[2]+padding,0]) 
-        handleBar(f,2);            
-    */        
 }
 
 module partTest(index){
@@ -37,5 +34,5 @@ module partPreGenerated(index){
         }*/
     }
 }
-//part(15);
+//part(14);
 //cutBody(15);
