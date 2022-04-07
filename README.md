@@ -28,3 +28,10 @@ sinus wave
 `npm run bezierSTP`
 
 `npm run sinWaveSTP`
+### Kitchen
+
+![Kitchen1](https://github.com/soekdd/soekSCAD/blob/main/output/png/kitchen4.png?raw=true)
+
+![Kitchen2](https://github.com/soekdd/soekSCAD/blob/main/output/png/kitchen5.png?raw=true)
+
+![Kitchen3](https://github.com/soekdd/soekSCAD/blob/main/output/png/kitchen6.png?raw=true)

@@ -35,7 +35,7 @@ module kitchen3DPreGenerated(dir = "parts"){
             translate([f[1]+f[6][0],f[2],f[6][1]])
                     rotate([0,f[5],0])
                         translate(-[f[1],f[2],0]) {
-                            import(str("../../output/kitchen/",dir,"/part",i,".stl"), convexity=3);
+                            import(str("../../output/kitchen/",dir,"/part",i,".stl"), convexity=2);
                             handleBars(i,2);
                         }
         }
