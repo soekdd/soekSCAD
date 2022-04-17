@@ -1,9 +1,9 @@
 border = 120;
 padding = 4;
 fase = 4;
-thickness = 12;
+thickness = 16.5;
 glassNotchX = 4;
-glassNotchY = 4;
+glassNotchY = 10;
 
 
 sockelH = 80;
@@ -27,6 +27,7 @@ cGreen = [0,1,0];
 cWood = [.83,.80,.75];
 cWall = [1,1,1];
 cBench = [0.1,0.1,0.1];
+doorColor = [cRed,cRed,cWood,cGreen,cWall,cBlue];
 
 hbMargin = border/2+padding+fase;
 hbShort = 128;

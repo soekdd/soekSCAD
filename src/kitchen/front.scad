@@ -68,6 +68,12 @@ function getFronts()=[
     
 ];
 
+module partList(){
+    fronts = getFronts();
+    for(f = fronts)
+        echo( f[0], f[3], f[4] );
+}
+
 module board(c,x,y,z,w,h,d){
     color(c)
         translate([x,y,z])
@@ -130,8 +136,9 @@ module front3D(index=-1){
     union(){
         if (index == -1)
             for(f = fronts) 
-                union()
-                    door3D(f);
+                color(doorColor[f[0]])
+                    //union()
+                        door3D(f);
         else 
             door3D(fronts[index]); 
         //boards();
@@ -283,6 +290,7 @@ module handleBars(index=-1,mode=1){
                 
    }
 }
+//partList();
 //handleBars();
 //front3D();
 //front();
