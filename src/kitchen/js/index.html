@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <svg width="1000" height="500" viewBox="0 0 5000 2600">
+            <g transform="scale(1,-1)" transform-origin="0 1300" id="kitchen"/>
+          </svg>
+        <script type="module">
+            import { tree } from "./tree.js";
+            import { parts } from "./parts.js";
+
+            var tree1 = [
+                {x:75,y:0},
+                {x:75,y:2000},
+                {x:200,y:1400},
+                {x:1800,y:2300},
+                {x:2000,y:2400},
+                {x:2500,y:2360},
+                {x:3550,y:2300},
+                {x:4150,y:2000}];
+                var tree2 = [
+                {x:85,y:0},
+                {x:85,y:500},
+                {x:100,y:400},
+                {x:1800,y:300},
+                {x:2000,y:50},
+                {x:2500,y:50},
+                {x:3000,y:600},
+                {x:3600,y:700}];
+            document.getElementById('kitchen').innerHTML=tree(tree1,160)+tree(tree2,115)+parts();
+        </script>
+    </body>
+</html>
