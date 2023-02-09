@@ -1,3 +1,5 @@
 output/kitchen
 output/logs
 lib
+src/kitchen/js/node_modules
+package-lock.json
